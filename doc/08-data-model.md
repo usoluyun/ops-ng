@@ -261,13 +261,3 @@ erDiagram
 | ORM / 数据访问 | 手写 SQL + SqlDataReader（ADO.NET），无 ORM，SQL 注入风险（如 `GetChainByChainName` 中字符串拼接） | Strapi 5 内置 ORM，参数化查询，类型安全 |
 | Schema 变更 | 手动执行 SQL 脚本变更表结构 | Strapi ORM 迁移，版本化管理 |
 
----
-
-## 验证检查清单
-
-- [x] 包含全部 6 个章节（概述、功能说明、技术设计、与其他模块的关系、与 Legacy 系统的主要差异）
-- [x] 有 4 个实体的字段定义表格（Hotel、Room、RoomType、User）
-- [x] 有 Mermaid ER 图（erDiagram，含 Hotel-Room-RoomType-User 关系）
-- [x] 有索引策略说明
-- [x] 说明了 legacy 废弃字段（DBName、Instance、Step）
-- [x] 文件已保存到 `/Users/luyun/Documents/poc/ops-ng/doc/08-data-model.md`

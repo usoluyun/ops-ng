@@ -28,33 +28,25 @@ Strapi 5 是 ops-ng 系统的主数据服务，承担酒店、房间、房型、
 
 **酒店数据维护流程：**
 
-```
-运维人员使用前端 UI
-  → 前端发起 HTTP 请求至 BBF
-  → BBF 携带 service token 调用 Strapi REST API
-  → Strapi 写入 PostgreSQL
-  → 返回结果
-```
+1. 运维人员通过前端 UI 操作酒店数据
+2. 前端发起 HTTP 请求至 BBF 网关
+3. BBF 携带 service token 调用 Strapi REST API
+4. Strapi 写入 PostgreSQL 并返回结果
 
 **用户登录验证流程：**
 
-```
-用户提交凭证至 Login App
-  → Login App 调用 Strapi /api/auth/local 验证
-  → Strapi 核验 email/mobile + password
-  → 验证成功，Login App 回调 ORY Hydra
-  → Hydra 颁发 OAuth2 Token
-```
+1. 用户在 Login App 提交账号凭证
+2. Login App 调用 Strapi 验证 email/mobile + password
+3. 验证成功后 Login App 回调 ORY Hydra
+4. Hydra 颁发 OAuth2 Token，用户完成登录
 
 **房型同步流程：**
 
-```
-BBF 投递任务至 Redis 队列
-  → Agent Worker 消费任务
-  → Agent 调用外部 OpsService/CenterService 获取最新房型
-  → Agent 通过 HTTP 回写房型数据至 Strapi
-  → Strapi 持久化至 PostgreSQL
-```
+1. BBF 将同步任务投递至 Redis 队列
+2. Agent Worker 消费任务
+3. Agent 调用外部 OpsService/CenterService 获取最新房型数据
+4. Agent 通过 HTTP 将房型数据回写至 Strapi
+5. Strapi 持久化至 PostgreSQL
 
 ### 注意事项
 

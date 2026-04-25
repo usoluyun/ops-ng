@@ -71,20 +71,20 @@ doc/
 
 ## Agent 分工
 
-| 文档 | 负责 Agent | 主要信息来源 |
-|------|-----------|-------------|
-| `00-overview.md` | 主 agent | `doc/architecture-v2.md` |
-| `01-auth.md` | 后端 agent | 架构文档 Hydra/Login App 章节 |
-| `02-frontend.md` | 前端 agent | 架构文档 Next.js 章节 + legacy 页面功能 |
-| `03-bbf-gateway.md` | 后端 agent | 架构文档 BBF 章节 |
-| `04-strapi-data.md` | 后端 agent | 架构文档 Strapi 章节 + legacy 数据模型 |
-| `05-agent-service.md` | 后端 agent | 架构文档 Agent 章节 |
-| `06-hotel-management.md` | 后端 agent | legacy `HomeController.cs` + 架构文档 |
-| `07-room-management.md` | 后端 agent | legacy `RoomController.cs` + 架构文档 |
-| `08-data-model.md` | 后端 agent | legacy `ChainDAL.cs` + 架构文档数据层 |
-| `09-deployment.md` | 后端 agent | 架构文档部署章节 |
+| 文档 | Agent 代号 | 角色说明 | 主要信息来源 |
+|------|-----------|---------|-------------|
+| `00-overview.md` | **Nick Fury** | 总览协调，掌握全局 | `doc/architecture-v2.md` |
+| `01-auth.md` | **Black Widow** | 安全认证，身份识别 | 架构文档 Hydra/Login App 章节 |
+| `02-frontend.md` | **Spider-Man** | 前端 UI，快速灵活 | 架构文档 Next.js 章节 + legacy 页面功能 |
+| `03-bbf-gateway.md` | **Iron Man** | 技术核心，请求编排 | 架构文档 BBF 章节 |
+| `04-strapi-data.md` | **Thor** | 强大稳定，数据支柱 | 架构文档 Strapi 章节 + legacy 数据模型 |
+| `05-agent-service.md` | **Doctor Strange** | 复杂工作流，异步多维 | 架构文档 Agent 章节 |
+| `06-hotel-management.md` | **Captain America** | 核心业务，流程领导 | legacy `HomeController.cs` + 架构文档 |
+| `07-room-management.md` | **Hawkeye** | 精准操作，细节把控 | legacy `RoomController.cs` + 架构文档 |
+| `08-data-model.md` | **Black Panther** | 技术基础，沉稳严谨 | legacy `ChainDAL.cs` + 架构文档数据层 |
+| `09-deployment.md` | **War Machine** | 基础设施，重型支撑 | 架构文档部署章节 |
 
-前端 agent 专注 `02-frontend.md`，后端 agent 并行撰写其余 9 篇。
+Spider-Man 专注 `02-frontend.md`，其余 9 位并行撰写各自模块。
 
 ---
 

@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+.env
+
+# Node
+node_modules/
+.next/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Docker
+.docker/
+
+# Database
+*.db
+*.sqlite
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env.local
+.env.*.local
+
+# Strapi
+strapi/.env
+strapi/node_modules/
+
+# BBF
+bbf/__pycache__/
+bbf/*.pyc
+
+# Agent
+agent/__pycache__/
+agent/*.pyc

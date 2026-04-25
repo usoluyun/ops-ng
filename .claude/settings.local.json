@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /Users/luyun/Documents/poc/ops-ng -type f \\\\\\(-name *.py -o -name *.ts -o -name *.json \\\\\\))",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

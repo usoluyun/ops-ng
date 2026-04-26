@@ -43,7 +43,8 @@
       "Bash(task project:ops-ng.phase1 +nick_fury rc.verbose=nothing)",
       "Bash(task project:ops-ng.phase1 +black_widow rc.verbose=nothing)",
       "Bash(__NEW_LINE_0575b335d040bbec__ echo:*)",
-      "Bash(__NEW_LINE_3180e507d3c16c2a__ echo:*)"
+      "Bash(__NEW_LINE_3180e507d3c16c2a__ echo:*)",
+      "Skill(update-config)"
     ]
   }
 }

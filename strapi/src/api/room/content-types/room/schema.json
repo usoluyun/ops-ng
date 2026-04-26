@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rooms",
+  "info": {
+    "singularName": "room",
+    "pluralName": "rooms",
+    "displayName": "Room",
+    "description": "酒店房间"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "roomNo": {
+      "type": "string",
+      "required": true,
+      "maxLength": 20
+    },
+    "floor": {
+      "type": "integer"
+    },
+    "hotel": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::hotel.hotel",
+      "inversedBy": "rooms"
+    },
+    "roomType": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::room-type.room-type",
+      "inversedBy": "rooms"
+    }
+  }
+}

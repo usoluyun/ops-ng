@@ -1,0 +1,64 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hotels",
+  "info": {
+    "singularName": "hotel",
+    "pluralName": "hotels",
+    "displayName": "Hotel",
+    "description": "亚朵集团酒店主数据"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "chainId": {
+      "type": "integer",
+      "unique": true,
+      "required": true
+    },
+    "chainName": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "status": {
+      "type": "integer",
+      "default": 1
+    },
+    "step": {
+      "type": "integer",
+      "default": 0
+    },
+    "openDate": {
+      "type": "datetime"
+    },
+    "address": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "telephone": {
+      "type": "string",
+      "maxLength": 20
+    },
+    "cityId": {
+      "type": "integer"
+    },
+    "areaId": {
+      "type": "integer"
+    },
+    "dbName": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "instance": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "rooms": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::room.room",
+      "mappedBy": "hotel"
+    }
+  }
+}

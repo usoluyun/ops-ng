@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "room_types",
+  "info": {
+    "singularName": "room-type",
+    "pluralName": "room-types",
+    "displayName": "RoomType",
+    "description": "酒店房型"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "roomTypeCode": {
+      "type": "string",
+      "unique": true,
+      "required": true,
+      "maxLength": 20
+    },
+    "roomTypeName": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50
+    },
+    "bedCount": {
+      "type": "integer",
+      "default": 1
+    },
+    "maxCheckInCount": {
+      "type": "integer",
+      "default": 2
+    },
+    "sort": {
+      "type": "integer",
+      "default": 0
+    },
+    "rooms": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::room.room",
+      "mappedBy": "roomType"
+    }
+  }
+}

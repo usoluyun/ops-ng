@@ -96,8 +96,7 @@ services:
     ports:
       - "1337:1337"
     depends_on:
-      postgres:
-        condition: service_healthy
+      - postgres
 
   login-app:
     build:
@@ -110,9 +109,6 @@ services:
       STRAPI_URL: http://strapi:1337
     ports:
       - "8001:8001"
-    depends_on:
-      - hydra
-      - strapi
 
   bbf:
     build:
@@ -126,6 +122,3 @@ services:
       STRAPI_SERVICE_TOKEN: ${STRAPI_SERVICE_TOKEN:-}
     ports:
       - "8000:8000"
-    depends_on:
-      - hydra
-      - strapi

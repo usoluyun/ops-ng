@@ -1,0 +1,131 @@
+version: "3.9"
+
+networks:
+  ops-ng-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    networks: [ops-ng-net]
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ops}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-devpassword123}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ops}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    networks: [ops-ng-net]
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  hydra-migrate:
+    image: oryd/hydra:v2.2.0
+    networks: [ops-ng-net]
+    command: migrate sql --yes postgres://${POSTGRES_USER:-ops}:${POSTGRES_PASSWORD:-devpassword123}@postgres:5432/${HYDRA_DB:-hydra_db}?sslmode=disable
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  hydra:
+    image: oryd/hydra:v2.2.0
+    restart: unless-stopped
+    networks: [ops-ng-net]
+    command: serve all --dev
+    environment:
+      DSN: postgres://${POSTGRES_USER:-ops}:${POSTGRES_PASSWORD:-devpassword123}@postgres:5432/${HYDRA_DB:-hydra_db}?sslmode=disable
+      URLS_SELF_ISSUER: http://localhost:4444
+      URLS_CONSENT: ${LOGIN_APP_URL:-http://localhost:8001}/consent
+      URLS_LOGIN: ${LOGIN_APP_URL:-http://localhost:8001}/login
+      URLS_LOGOUT: ${LOGIN_APP_URL:-http://localhost:8001}/logout
+      SECRETS_SYSTEM: ${HYDRA_SECRETS_SYSTEM:-youReallyNeedToChangeThis32chars!!}
+      LOG_LEVEL: info
+      OAUTH2_EXPOSE_INTERNAL_ERRORS: "true"
+    ports:
+      - "4444:4444"
+      - "4445:4445"
+    depends_on:
+      hydra-migrate:
+        condition: service_completed_successfully
+
+  strapi:
+    build:
+      context: ./strapi
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    networks: [ops-ng-net]
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${STRAPI_DB:-strapi_db}
+      DATABASE_USERNAME: ${POSTGRES_USER:-ops}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD:-devpassword123}
+      DATABASE_SSL: "false"
+      APP_KEYS: ${STRAPI_APP_KEYS:-key1changeMe,key2changeMe}
+      API_TOKEN_SALT: ${STRAPI_API_TOKEN_SALT:-changeMeSaltString}
+      ADMIN_JWT_SECRET: ${STRAPI_ADMIN_JWT_SECRET:-changeMe32CharsLongSecretForJWT!}
+      JWT_SECRET: ${STRAPI_ADMIN_JWT_SECRET:-changeMe32CharsLongSecretForJWT!}
+      NODE_ENV: development
+    volumes:
+      - ./strapi/src:/app/src
+      - ./strapi/config:/app/config
+    ports:
+      - "1337:1337"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  login-app:
+    build:
+      context: ./login-app
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks: [ops-ng-net]
+    environment:
+      HYDRA_ADMIN_URL: http://hydra:4445
+      STRAPI_URL: http://strapi:1337
+    ports:
+      - "8001:8001"
+    depends_on:
+      - hydra
+      - strapi
+
+  bbf:
+    build:
+      context: ./bbf
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks: [ops-ng-net]
+    environment:
+      HYDRA_PUBLIC_URL: http://hydra:4444
+      STRAPI_URL: http://strapi:1337
+      STRAPI_SERVICE_TOKEN: ${STRAPI_SERVICE_TOKEN:-}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - hydra
+      - strapi

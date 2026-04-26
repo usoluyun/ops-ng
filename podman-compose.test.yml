@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  postgres:
+    environment:
+      POSTGRES_USER: ops_test
+      POSTGRES_PASSWORD: testpassword
+    ports:
+      - "5433:5432"
+
+  strapi:
+    environment:
+      DATABASE_USERNAME: ops_test
+      DATABASE_PASSWORD: testpassword
+      DATABASE_NAME: strapi_test
+      NODE_ENV: test
+    ports:
+      - "1338:1337"
+
+  hydra:
+    ports:
+      - "4446:4444"
+      - "4447:4445"
+
+  login-app:
+    ports:
+      - "8002:8001"
+
+  bbf:
+    ports:
+      - "8080:8000"
